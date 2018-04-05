@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.androidaidl.androidaidllibrary.IRemoteProductService;
 import com.androidaidl.androidaidllibrary.Product;
+import com.androidaidl.androidaidllibrary.DemoHelloWorld;
 
 
 public class MainActivity extends Activity {
@@ -59,14 +60,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
+
+
+
                     if (service != null) {
                         String name = ((EditText) findViewById(R.id.edtSearchProduct)).getText().toString();
                         Product product = service.getProduct(name);
                         if(product != null) {
                             ((TextView) findViewById(R.id.txtSearchResult)).setText(product.toString());
                         } else {
-                            Toast.makeText(MainActivity.this, "No product found with this name", Toast.LENGTH_LONG)
-                                    .show();
+//                            Toast.makeText(MainActivity.this, "No product found with this name", Toast.LENGTH_LONG)
+//                                    .show();
+                            DemoHelloWorld demoHelloWorld = new DemoHelloWorld();
+                            demoHelloWorld.sayHi(MainActivity.this);
                         }
 
                     } else {
@@ -106,9 +112,9 @@ public class MainActivity extends Activity {
 
     private void connectService() {
         serviceConnection = new RemoteServiceConnection();
-//        Intent i = new Intent(this, ProductService.class);
-        Intent i = new Intent("com.androidaidl.androidaidlservice.ProductService");
-        i.setPackage("com.androidaidl.androidaidlservice");
+        Intent i = new Intent(this, ProductService.class);
+//        Intent i = new Intent("com.androidaidl.androidaidlservice.ProductService");
+//        i.setPackage("com.androidaidl.androidaidlservice");
         boolean ret = bindService(i, serviceConnection, Context.BIND_AUTO_CREATE);
     }
     class RemoteServiceConnection implements ServiceConnection {
